@@ -56,6 +56,8 @@ export class PrepareLanguageTestsRequest extends jspb.Message {
     setTemporaryDirectory(value: string): PrepareLanguageTestsRequest;
     getCoreSdkDirectory(): string;
     setCoreSdkDirectory(value: string): PrepareLanguageTestsRequest;
+    getCoreSdkVersion(): string;
+    setCoreSdkVersion(value: string): PrepareLanguageTestsRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PrepareLanguageTestsRequest.AsObject;
@@ -74,6 +76,7 @@ export namespace PrepareLanguageTestsRequest {
         snapshotDirectory: string,
         temporaryDirectory: string,
         coreSdkDirectory: string,
+        coreSdkVersion: string,
     }
 }
 
