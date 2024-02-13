@@ -67,6 +67,8 @@ export class ConfigureRequest extends jspb.Message {
     setSendsOldInputs(value: boolean): ConfigureRequest;
     getSendsOldInputsToDelete(): boolean;
     setSendsOldInputsToDelete(value: boolean): ConfigureRequest;
+    getSupportsMetadata(): boolean;
+    setSupportsMetadata(value: boolean): ConfigureRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): ConfigureRequest.AsObject;
@@ -87,6 +89,7 @@ export namespace ConfigureRequest {
         acceptresources: boolean,
         sendsOldInputs: boolean,
         sendsOldInputsToDelete: boolean,
+        supportsMetadata: boolean,
     }
 }
 
@@ -378,6 +381,11 @@ export class CheckRequest extends jspb.Message {
     getRandomseed_asB64(): string;
     setRandomseed(value: Uint8Array | string): CheckRequest;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): CheckRequest;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CheckRequest.AsObject;
     static toObject(includeInstance: boolean, msg: CheckRequest): CheckRequest.AsObject;
@@ -394,6 +402,7 @@ export namespace CheckRequest {
         olds?: google_protobuf_struct_pb.Struct.AsObject,
         news?: google_protobuf_struct_pb.Struct.AsObject,
         randomseed: Uint8Array | string,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -407,6 +416,11 @@ export class CheckResponse extends jspb.Message {
     getFailuresList(): Array<CheckFailure>;
     setFailuresList(value: Array<CheckFailure>): CheckResponse;
     addFailures(value?: CheckFailure, index?: number): CheckFailure;
+
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): CheckResponse;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CheckResponse.AsObject;
@@ -422,6 +436,7 @@ export namespace CheckResponse {
     export type AsObject = {
         inputs?: google_protobuf_struct_pb.Struct.AsObject,
         failuresList: Array<CheckFailure.AsObject>,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -473,6 +488,11 @@ export class DiffRequest extends jspb.Message {
     getOldInputs(): google_protobuf_struct_pb.Struct | undefined;
     setOldInputs(value?: google_protobuf_struct_pb.Struct): DiffRequest;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): DiffRequest;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): DiffRequest.AsObject;
     static toObject(includeInstance: boolean, msg: DiffRequest): DiffRequest.AsObject;
@@ -491,6 +511,7 @@ export namespace DiffRequest {
         news?: google_protobuf_struct_pb.Struct.AsObject,
         ignorechangesList: Array<string>,
         oldInputs?: google_protobuf_struct_pb.Struct.AsObject,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -550,6 +571,11 @@ export class DiffResponse extends jspb.Message {
     getHasdetaileddiff(): boolean;
     setHasdetaileddiff(value: boolean): DiffResponse;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): DiffResponse;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): DiffResponse.AsObject;
     static toObject(includeInstance: boolean, msg: DiffResponse): DiffResponse.AsObject;
@@ -570,6 +596,7 @@ export namespace DiffResponse {
 
         detaileddiffMap: Array<[string, PropertyDiff.AsObject]>,
         hasdetaileddiff: boolean,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 
     export enum DiffChanges {
@@ -593,6 +620,11 @@ export class CreateRequest extends jspb.Message {
     getPreview(): boolean;
     setPreview(value: boolean): CreateRequest;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): CreateRequest;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateRequest.AsObject;
     static toObject(includeInstance: boolean, msg: CreateRequest): CreateRequest.AsObject;
@@ -609,6 +641,7 @@ export namespace CreateRequest {
         properties?: google_protobuf_struct_pb.Struct.AsObject,
         timeout: number,
         preview: boolean,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -620,6 +653,11 @@ export class CreateResponse extends jspb.Message {
     clearProperties(): void;
     getProperties(): google_protobuf_struct_pb.Struct | undefined;
     setProperties(value?: google_protobuf_struct_pb.Struct): CreateResponse;
+
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): CreateResponse;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateResponse.AsObject;
@@ -635,6 +673,7 @@ export namespace CreateResponse {
     export type AsObject = {
         id: string,
         properties?: google_protobuf_struct_pb.Struct.AsObject,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -654,6 +693,11 @@ export class ReadRequest extends jspb.Message {
     getInputs(): google_protobuf_struct_pb.Struct | undefined;
     setInputs(value?: google_protobuf_struct_pb.Struct): ReadRequest;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): ReadRequest;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): ReadRequest.AsObject;
     static toObject(includeInstance: boolean, msg: ReadRequest): ReadRequest.AsObject;
@@ -670,6 +714,7 @@ export namespace ReadRequest {
         urn: string,
         properties?: google_protobuf_struct_pb.Struct.AsObject,
         inputs?: google_protobuf_struct_pb.Struct.AsObject,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -687,6 +732,11 @@ export class ReadResponse extends jspb.Message {
     getInputs(): google_protobuf_struct_pb.Struct | undefined;
     setInputs(value?: google_protobuf_struct_pb.Struct): ReadResponse;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): ReadResponse;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): ReadResponse.AsObject;
     static toObject(includeInstance: boolean, msg: ReadResponse): ReadResponse.AsObject;
@@ -702,6 +752,7 @@ export namespace ReadResponse {
         id: string,
         properties?: google_protobuf_struct_pb.Struct.AsObject,
         inputs?: google_protobuf_struct_pb.Struct.AsObject,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -734,6 +785,11 @@ export class UpdateRequest extends jspb.Message {
     getOldInputs(): google_protobuf_struct_pb.Struct | undefined;
     setOldInputs(value?: google_protobuf_struct_pb.Struct): UpdateRequest;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): UpdateRequest;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateRequest.AsObject;
     static toObject(includeInstance: boolean, msg: UpdateRequest): UpdateRequest.AsObject;
@@ -754,6 +810,7 @@ export namespace UpdateRequest {
         ignorechangesList: Array<string>,
         preview: boolean,
         oldInputs?: google_protobuf_struct_pb.Struct.AsObject,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -763,6 +820,11 @@ export class UpdateResponse extends jspb.Message {
     clearProperties(): void;
     getProperties(): google_protobuf_struct_pb.Struct | undefined;
     setProperties(value?: google_protobuf_struct_pb.Struct): UpdateResponse;
+
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): UpdateResponse;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateResponse.AsObject;
@@ -777,6 +839,7 @@ export class UpdateResponse extends jspb.Message {
 export namespace UpdateResponse {
     export type AsObject = {
         properties?: google_protobuf_struct_pb.Struct.AsObject,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 
@@ -798,6 +861,11 @@ export class DeleteRequest extends jspb.Message {
     getOldInputs(): google_protobuf_struct_pb.Struct | undefined;
     setOldInputs(value?: google_protobuf_struct_pb.Struct): DeleteRequest;
 
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+    setMetadata(value?: google_protobuf_struct_pb.Struct): DeleteRequest;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): DeleteRequest.AsObject;
     static toObject(includeInstance: boolean, msg: DeleteRequest): DeleteRequest.AsObject;
@@ -815,6 +883,7 @@ export namespace DeleteRequest {
         properties?: google_protobuf_struct_pb.Struct.AsObject,
         timeout: number,
         oldInputs?: google_protobuf_struct_pb.Struct.AsObject,
+        metadata?: google_protobuf_struct_pb.Struct.AsObject,
     }
 }
 

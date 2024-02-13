@@ -1092,7 +1092,8 @@ proto.pulumirpc.ConfigureRequest.toObject = function(includeInstance, msg) {
     acceptsecrets: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
     acceptresources: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
     sendsOldInputs: jspb.Message.getBooleanFieldWithDefault(msg, 5, false),
-    sendsOldInputsToDelete: jspb.Message.getBooleanFieldWithDefault(msg, 6, false)
+    sendsOldInputsToDelete: jspb.Message.getBooleanFieldWithDefault(msg, 6, false),
+    supportsMetadata: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
   };
 
   if (includeInstance) {
@@ -1155,6 +1156,10 @@ proto.pulumirpc.ConfigureRequest.deserializeBinaryFromReader = function(msg, rea
     case 6:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setSendsOldInputsToDelete(value);
+      break;
+    case 7:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setSupportsMetadata(value);
       break;
     default:
       reader.skipField();
@@ -1222,6 +1227,13 @@ proto.pulumirpc.ConfigureRequest.serializeBinaryToWriter = function(message, wri
   if (f) {
     writer.writeBool(
       6,
+      f
+    );
+  }
+  f = message.getSupportsMetadata();
+  if (f) {
+    writer.writeBool(
+      7,
       f
     );
   }
@@ -1356,6 +1368,24 @@ proto.pulumirpc.ConfigureRequest.prototype.getSendsOldInputsToDelete = function(
  */
 proto.pulumirpc.ConfigureRequest.prototype.setSendsOldInputsToDelete = function(value) {
   return jspb.Message.setProto3BooleanField(this, 6, value);
+};
+
+
+/**
+ * optional bool supports_metadata = 7;
+ * @return {boolean}
+ */
+proto.pulumirpc.ConfigureRequest.prototype.getSupportsMetadata = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.pulumirpc.ConfigureRequest} returns this
+ */
+proto.pulumirpc.ConfigureRequest.prototype.setSupportsMetadata = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 7, value);
 };
 
 
@@ -3365,7 +3395,8 @@ proto.pulumirpc.CheckRequest.toObject = function(includeInstance, msg) {
     urn: jspb.Message.getFieldWithDefault(msg, 1, ""),
     olds: (f = msg.getOlds()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
     news: (f = msg.getNews()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
-    randomseed: msg.getRandomseed_asB64()
+    randomseed: msg.getRandomseed_asB64(),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -3419,6 +3450,11 @@ proto.pulumirpc.CheckRequest.deserializeBinaryFromReader = function(msg, reader)
     case 5:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setRandomseed(value);
+      break;
+    case 6:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
       break;
     default:
       reader.skipField();
@@ -3477,6 +3513,14 @@ proto.pulumirpc.CheckRequest.serializeBinaryToWriter = function(message, writer)
     writer.writeBytes(
       5,
       f
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      6,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
   }
 };
@@ -3616,6 +3660,43 @@ proto.pulumirpc.CheckRequest.prototype.setRandomseed = function(value) {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 6;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.CheckRequest.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 6));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.CheckRequest} returns this
+*/
+proto.pulumirpc.CheckRequest.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.CheckRequest} returns this
+ */
+proto.pulumirpc.CheckRequest.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.CheckRequest.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 6) != null;
+};
+
+
 
 /**
  * List of repeated fields within this message type.
@@ -3657,7 +3738,8 @@ proto.pulumirpc.CheckResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     inputs: (f = msg.getInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
     failuresList: jspb.Message.toObjectList(msg.getFailuresList(),
-    proto.pulumirpc.CheckFailure.toObject, includeInstance)
+    proto.pulumirpc.CheckFailure.toObject, includeInstance),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -3704,6 +3786,11 @@ proto.pulumirpc.CheckResponse.deserializeBinaryFromReader = function(msg, reader
       reader.readMessage(value,proto.pulumirpc.CheckFailure.deserializeBinaryFromReader);
       msg.addFailures(value);
       break;
+    case 3:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -3747,6 +3834,14 @@ proto.pulumirpc.CheckResponse.serializeBinaryToWriter = function(message, writer
       2,
       f,
       proto.pulumirpc.CheckFailure.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
   }
 };
@@ -3824,6 +3919,43 @@ proto.pulumirpc.CheckResponse.prototype.addFailures = function(opt_value, opt_in
  */
 proto.pulumirpc.CheckResponse.prototype.clearFailuresList = function() {
   return this.setFailuresList([]);
+};
+
+
+/**
+ * optional google.protobuf.Struct metadata = 3;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.CheckResponse.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 3));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.CheckResponse} returns this
+*/
+proto.pulumirpc.CheckResponse.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.CheckResponse} returns this
+ */
+proto.pulumirpc.CheckResponse.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.CheckResponse.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -4031,7 +4163,8 @@ proto.pulumirpc.DiffRequest.toObject = function(includeInstance, msg) {
     olds: (f = msg.getOlds()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
     news: (f = msg.getNews()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
     ignorechangesList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
-    oldInputs: (f = msg.getOldInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    oldInputs: (f = msg.getOldInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -4094,6 +4227,11 @@ proto.pulumirpc.DiffRequest.deserializeBinaryFromReader = function(msg, reader) 
       var value = new google_protobuf_struct_pb.Struct;
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setOldInputs(value);
+      break;
+    case 7:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
       break;
     default:
       reader.skipField();
@@ -4165,6 +4303,14 @@ proto.pulumirpc.DiffRequest.serializeBinaryToWriter = function(message, writer) 
   if (f != null) {
     writer.writeMessage(
       6,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      7,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
@@ -4353,6 +4499,43 @@ proto.pulumirpc.DiffRequest.prototype.clearOldInputs = function() {
  */
 proto.pulumirpc.DiffRequest.prototype.hasOldInputs = function() {
   return jspb.Message.getField(this, 6) != null;
+};
+
+
+/**
+ * optional google.protobuf.Struct metadata = 7;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.DiffRequest.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 7));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.DiffRequest} returns this
+*/
+proto.pulumirpc.DiffRequest.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 7, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.DiffRequest} returns this
+ */
+proto.pulumirpc.DiffRequest.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.DiffRequest.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 7) != null;
 };
 
 
@@ -4573,7 +4756,8 @@ proto.pulumirpc.DiffResponse.toObject = function(includeInstance, msg) {
     changes: jspb.Message.getFieldWithDefault(msg, 4, 0),
     diffsList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
     detaileddiffMap: (f = msg.getDetaileddiffMap()) ? f.toObject(includeInstance, proto.pulumirpc.PropertyDiff.toObject) : [],
-    hasdetaileddiff: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
+    hasdetaileddiff: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -4639,6 +4823,11 @@ proto.pulumirpc.DiffResponse.deserializeBinaryFromReader = function(msg, reader)
     case 7:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setHasdetaileddiff(value);
+      break;
+    case 8:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
       break;
     default:
       reader.skipField();
@@ -4713,6 +4902,14 @@ proto.pulumirpc.DiffResponse.serializeBinaryToWriter = function(message, writer)
     writer.writeBool(
       7,
       f
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      8,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
   }
 };
@@ -4914,6 +5111,43 @@ proto.pulumirpc.DiffResponse.prototype.setHasdetaileddiff = function(value) {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 8;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.DiffResponse.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 8));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.DiffResponse} returns this
+*/
+proto.pulumirpc.DiffResponse.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 8, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.DiffResponse} returns this
+ */
+proto.pulumirpc.DiffResponse.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.DiffResponse.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 8) != null;
+};
+
+
 
 
 
@@ -4949,7 +5183,8 @@ proto.pulumirpc.CreateRequest.toObject = function(includeInstance, msg) {
     urn: jspb.Message.getFieldWithDefault(msg, 1, ""),
     properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
     timeout: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0),
-    preview: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
+    preview: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5002,6 +5237,11 @@ proto.pulumirpc.CreateRequest.deserializeBinaryFromReader = function(msg, reader
     case 4:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setPreview(value);
+      break;
+    case 5:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
       break;
     default:
       reader.skipField();
@@ -5059,6 +5299,14 @@ proto.pulumirpc.CreateRequest.serializeBinaryToWriter = function(message, writer
     writer.writeBool(
       4,
       f
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      5,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
   }
 };
@@ -5155,6 +5403,43 @@ proto.pulumirpc.CreateRequest.prototype.setPreview = function(value) {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 5;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.CreateRequest.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 5));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.CreateRequest} returns this
+*/
+proto.pulumirpc.CreateRequest.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 5, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.CreateRequest} returns this
+ */
+proto.pulumirpc.CreateRequest.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.CreateRequest.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 5) != null;
+};
+
+
 
 
 
@@ -5188,7 +5473,8 @@ proto.pulumirpc.CreateResponse.prototype.toObject = function(opt_includeInstance
 proto.pulumirpc.CreateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5234,6 +5520,11 @@ proto.pulumirpc.CreateResponse.deserializeBinaryFromReader = function(msg, reade
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setProperties(value);
       break;
+    case 3:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -5274,6 +5565,14 @@ proto.pulumirpc.CreateResponse.serializeBinaryToWriter = function(message, write
   if (f != null) {
     writer.writeMessage(
       2,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      3,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
@@ -5336,6 +5635,43 @@ proto.pulumirpc.CreateResponse.prototype.hasProperties = function() {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 3;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.CreateResponse.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 3));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.CreateResponse} returns this
+*/
+proto.pulumirpc.CreateResponse.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.CreateResponse} returns this
+ */
+proto.pulumirpc.CreateResponse.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.CreateResponse.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 3) != null;
+};
+
+
 
 
 
@@ -5371,7 +5707,8 @@ proto.pulumirpc.ReadRequest.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     urn: jspb.Message.getFieldWithDefault(msg, 2, ""),
     properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
-    inputs: (f = msg.getInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    inputs: (f = msg.getInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5425,6 +5762,11 @@ proto.pulumirpc.ReadRequest.deserializeBinaryFromReader = function(msg, reader) 
       var value = new google_protobuf_struct_pb.Struct;
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setInputs(value);
+      break;
+    case 5:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
       break;
     default:
       reader.skipField();
@@ -5481,6 +5823,14 @@ proto.pulumirpc.ReadRequest.serializeBinaryToWriter = function(message, writer) 
   if (f != null) {
     writer.writeMessage(
       4,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      5,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
@@ -5598,6 +5948,43 @@ proto.pulumirpc.ReadRequest.prototype.hasInputs = function() {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 5;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.ReadRequest.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 5));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.ReadRequest} returns this
+*/
+proto.pulumirpc.ReadRequest.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 5, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.ReadRequest} returns this
+ */
+proto.pulumirpc.ReadRequest.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.ReadRequest.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 5) != null;
+};
+
+
 
 
 
@@ -5632,7 +6019,8 @@ proto.pulumirpc.ReadResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
-    inputs: (f = msg.getInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    inputs: (f = msg.getInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5683,6 +6071,11 @@ proto.pulumirpc.ReadResponse.deserializeBinaryFromReader = function(msg, reader)
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setInputs(value);
       break;
+    case 4:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -5731,6 +6124,14 @@ proto.pulumirpc.ReadResponse.serializeBinaryToWriter = function(message, writer)
   if (f != null) {
     writer.writeMessage(
       3,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      4,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
@@ -5830,6 +6231,43 @@ proto.pulumirpc.ReadResponse.prototype.hasInputs = function() {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 4;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.ReadResponse.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 4));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.ReadResponse} returns this
+*/
+proto.pulumirpc.ReadResponse.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 4, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.ReadResponse} returns this
+ */
+proto.pulumirpc.ReadResponse.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.ReadResponse.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 4) != null;
+};
+
+
 
 /**
  * List of repeated fields within this message type.
@@ -5876,7 +6314,8 @@ proto.pulumirpc.UpdateRequest.toObject = function(includeInstance, msg) {
     timeout: jspb.Message.getFloatingPointFieldWithDefault(msg, 5, 0.0),
     ignorechangesList: (f = jspb.Message.getRepeatedField(msg, 6)) == null ? undefined : f,
     preview: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
-    oldInputs: (f = msg.getOldInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    oldInputs: (f = msg.getOldInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5947,6 +6386,11 @@ proto.pulumirpc.UpdateRequest.deserializeBinaryFromReader = function(msg, reader
       var value = new google_protobuf_struct_pb.Struct;
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setOldInputs(value);
+      break;
+    case 9:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
       break;
     default:
       reader.skipField();
@@ -6032,6 +6476,14 @@ proto.pulumirpc.UpdateRequest.serializeBinaryToWriter = function(message, writer
   if (f != null) {
     writer.writeMessage(
       8,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      9,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
@@ -6259,6 +6711,43 @@ proto.pulumirpc.UpdateRequest.prototype.hasOldInputs = function() {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 9;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.UpdateRequest.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 9));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.UpdateRequest} returns this
+*/
+proto.pulumirpc.UpdateRequest.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 9, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.UpdateRequest} returns this
+ */
+proto.pulumirpc.UpdateRequest.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.UpdateRequest.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 9) != null;
+};
+
+
 
 
 
@@ -6291,7 +6780,8 @@ proto.pulumirpc.UpdateResponse.prototype.toObject = function(opt_includeInstance
  */
 proto.pulumirpc.UpdateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -6333,6 +6823,11 @@ proto.pulumirpc.UpdateResponse.deserializeBinaryFromReader = function(msg, reade
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setProperties(value);
       break;
+    case 2:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -6366,6 +6861,14 @@ proto.pulumirpc.UpdateResponse.serializeBinaryToWriter = function(message, write
   if (f != null) {
     writer.writeMessage(
       1,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      2,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
@@ -6410,6 +6913,43 @@ proto.pulumirpc.UpdateResponse.prototype.hasProperties = function() {
 };
 
 
+/**
+ * optional google.protobuf.Struct metadata = 2;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.UpdateResponse.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 2));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.UpdateResponse} returns this
+*/
+proto.pulumirpc.UpdateResponse.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.UpdateResponse} returns this
+ */
+proto.pulumirpc.UpdateResponse.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.UpdateResponse.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
 
 
 
@@ -6446,7 +6986,8 @@ proto.pulumirpc.DeleteRequest.toObject = function(includeInstance, msg) {
     urn: jspb.Message.getFieldWithDefault(msg, 2, ""),
     properties: (f = msg.getProperties()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
     timeout: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0),
-    oldInputs: (f = msg.getOldInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    oldInputs: (f = msg.getOldInputs()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    metadata: (f = msg.getMetadata()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -6504,6 +7045,11 @@ proto.pulumirpc.DeleteRequest.deserializeBinaryFromReader = function(msg, reader
       var value = new google_protobuf_struct_pb.Struct;
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setOldInputs(value);
+      break;
+    case 6:
+      var value = new google_protobuf_struct_pb.Struct;
+      reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
+      msg.setMetadata(value);
       break;
     default:
       reader.skipField();
@@ -6567,6 +7113,14 @@ proto.pulumirpc.DeleteRequest.serializeBinaryToWriter = function(message, writer
   if (f != null) {
     writer.writeMessage(
       5,
+      f,
+      google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      6,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
     );
@@ -6699,6 +7253,43 @@ proto.pulumirpc.DeleteRequest.prototype.clearOldInputs = function() {
  */
 proto.pulumirpc.DeleteRequest.prototype.hasOldInputs = function() {
   return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional google.protobuf.Struct metadata = 6;
+ * @return {?proto.google.protobuf.Struct}
+ */
+proto.pulumirpc.DeleteRequest.prototype.getMetadata = function() {
+  return /** @type{?proto.google.protobuf.Struct} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_struct_pb.Struct, 6));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Struct|undefined} value
+ * @return {!proto.pulumirpc.DeleteRequest} returns this
+*/
+proto.pulumirpc.DeleteRequest.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pulumirpc.DeleteRequest} returns this
+ */
+proto.pulumirpc.DeleteRequest.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pulumirpc.DeleteRequest.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 
