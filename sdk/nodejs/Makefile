@@ -37,6 +37,7 @@ build_package:: ensure
 	mkdir -p bin/tests/automation/data/
 	cp -R tests/automation/data/. bin/tests/automation/data/
 	cp README.md ../../LICENSE ./dist/* bin/
+	rsync -r ./vendor/ ./bin/vendor/
 # safely remove mockpackage dependency see [pulumi/pulumi#9026]
 	cp package.json yarn.lock bin/ && cd bin && yarn remove mockpackage && rm yarn.lock
 	node ../../scripts/reversion.js bin/package.json ${VERSION}

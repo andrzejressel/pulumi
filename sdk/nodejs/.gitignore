@@ -6,3 +6,5 @@
 /runtime/native/node_dev/
 .nyc_output/
 !yarn.lock
+!vendor
+!vendor/ts-node@7.0.1/node_modules

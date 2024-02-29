@@ -18,7 +18,6 @@ import * as ini from "ini";
 import * as minimist from "minimist";
 import * as path from "path";
 import * as semver from "semver";
-import * as tsnode from "ts-node";
 import * as url from "url";
 import * as util from "util";
 import { ResourceError, RunError } from "../../errors";
@@ -254,10 +253,46 @@ export async function run(
 
     span.setAttribute("typescript-enabled", typeScript);
     if (typeScript) {
+        let typescriptRequire = "typescript";
+        let tsNodeRequire = "ts-node";
+
+        const missingPeers: string[] = [];
+
+        try {
+            const ts = require("typescript") as { version: string };
+            const tsPath = require.resolve("typescript");
+            log.debug(`Found typescript version ${ts.version} at ${tsPath}`);
+        } catch (error) {
+            typescriptRequire = path.join(__dirname, "..", "..", "vendor", "typescript@3.8.3", "typescript.js");
+            missingPeers.push("typescript");
+        }
+
+        try {
+            const tsNode = require(tsNodeRequire) as any;
+            const tsNodePath = require.resolve("ts-node");
+            log.debug(`Found ts-node version: ${tsNode.VERSION} at ${tsNodePath}`);
+        } catch (error) {
+            tsNodeRequire = path.join(__dirname, "..", "..", "vendor", "ts-node@7.0.1", "dist", "index.js");
+            missingPeers.push(`ts-node`);
+        }
+
+        if (missingPeers.length > 0) {
+            // TODO: Use correct package manager name.
+            const packageManager = "npm";
+            const packages = missingPeers.join(" and ");
+            log.warn(
+                `${packages} peer ${
+                    packages.length > 1 ? "dependencies" : "dependency"
+                } not found, using vendored versions. ` +
+                    `Consider installing ${packages} with 'npm install ${missingPeers.join(" ")}'.`,
+            );
+        }
+
         const transpileOnly = (process.env["PULUMI_NODEJS_TRANSPILE_ONLY"] ?? "false") === "true";
         const compilerOptions = tsutils.loadTypeScriptCompilerOptions(tsConfigPath);
-        const tsn: typeof tsnode = require("ts-node");
+        const tsn: any = require(tsNodeRequire); // TODO: Add basic type for ts-node
         tsn.register({
+            compiler: typescriptRequire,
             transpileOnly,
             // PULUMI_NODEJS_TSCONFIG_PATH might be set to a config file such as "tsconfig.pulumi.yaml" which
             // would not get picked up by tsnode by default, so we explicitly tell tsnode which config file to
@@ -308,7 +343,7 @@ export async function run(
         if (RunError.isInstance(err)) {
             // Always hide the stack for RunErrors.
             log.error(err.message);
-        } else if (err.name === tsnode.TSError.name || err.name === SyntaxError.name) {
+        } else if (err.name === "TSError" /*tsnode.TSError.name*/ || err.name === SyntaxError.name) {
             // Hide stack frames as TSError/SyntaxError have messages containing
             // where the error is located
             const errOut = err.stack?.toString() || "";

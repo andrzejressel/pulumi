@@ -165,6 +165,8 @@ export function run(opts: RunOpts): Promise<Record<string, any> | undefined> | P
     // pulumi/pulumi#1772.
     const tsConfigPath = "tsconfig.json";
 
+    // TODO: check for presence of peer deps like we do in sdk/nodejs/cmd/run/run.ts
+
     if (opts.typeScript) {
         const skipProject = !fs.existsSync(tsConfigPath);
         const compilerOptions: object = tsutils.loadTypeScriptCompilerOptions(tsConfigPath);

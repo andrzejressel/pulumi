@@ -14,7 +14,8 @@
             "cmd/pulumi-language-nodejs",
             "tests/runtime/jsClosureCases_*.js",
             "tests/runtime/tsClosureCases.ts",
-            "tests/mockpackage/lib/"
+            "tests/mockpackage/lib/",
+            "vendor/"
         ]
     },
     "formatter": {
