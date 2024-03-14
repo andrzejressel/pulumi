@@ -257,8 +257,7 @@
             "type":"object",
             "additionalProperties":false,
             "required":[
-                "name",
-                "path"
+                "name"
             ],
             "properties":{
                 "name":{

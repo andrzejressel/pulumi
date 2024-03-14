@@ -175,29 +175,33 @@ func parsePluginOpts(
 	}
 	var v *semver.Version
 	if providerOpts.Version != "" {
-		ver, err := semver.Parse(providerOpts.Version)
+		ver, err := semver.ParseTolerant(providerOpts.Version)
 		if err != nil {
 			return workspace.ProjectPlugin{}, err
 		}
 		v = &ver
 	}
 
-	stat, err := os.Stat(providerOpts.Path)
-	if os.IsNotExist(err) {
-		return handleErr("no folder at path '%s'", providerOpts.Path)
-	} else if err != nil {
-		return handleErr("checking provider folder: %w", err)
-	} else if !stat.IsDir() {
-		return handleErr("provider folder '%s' is not a directory", providerOpts.Path)
-	}
-
-	// The path is relative to the project root. Make it absolute here so we don't need to track that everywhere its used.
-	path := providerOpts.Path
-	if !filepath.IsAbs(path) {
-		path, err = filepath.Abs(filepath.Join(root, path))
-		if err != nil {
-			return handleErr("getting absolute path for plugin path %s: %w", providerOpts.Path, err)
+	var path *string
+	if providerOpts.Path != "" {
+		stat, err := os.Stat(providerOpts.Path)
+		if os.IsNotExist(err) {
+			return handleErr("no folder at path '%s'", path)
+		} else if err != nil {
+			return handleErr("checking provider folder: %w", err)
+		} else if !stat.IsDir() {
+			return handleErr("provider folder '%s' is not a directory", path)
 		}
+
+		// The path is relative to the project root. Make it absolute here so we don't need to track that everywhere its used.
+		p := providerOpts.Path
+		if !filepath.IsAbs(p) {
+			p, err = filepath.Abs(filepath.Join(root, p))
+			if err != nil {
+				return handleErr("getting absolute path for plugin path %s: %w", path, err)
+			}
+		}
+		path = &p
 	}
 
 	pluginInfo := workspace.ProjectPlugin{

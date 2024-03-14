@@ -255,6 +255,7 @@ func installPlugins(ctx context.Context,
 	}
 
 	allPlugins := languagePlugins.Union(snapshotPlugins)
+	projectPlugins := plugctx.Host.GetProjectPlugins()
 
 	// If there are any plugins that are not available, we can attempt to install them here.
 	//
@@ -262,7 +263,7 @@ func installPlugins(ctx context.Context,
 	// with an error message indicating exactly what plugins are missing. If `returnInstallErrors` is set, then return
 	// the error.
 	if err := ensurePluginsAreInstalled(ctx, plugctx.Diag, allPlugins.Deduplicate(),
-		plugctx.Host.GetProjectPlugins()); err != nil {
+		projectPlugins); err != nil {
 		if returnInstallErrors {
 			return nil, nil, err
 		}
@@ -270,7 +271,7 @@ func installPlugins(ctx context.Context,
 	}
 
 	// Collect the version information for default providers.
-	defaultProviderVersions := computeDefaultProviderPlugins(languagePlugins, allPlugins)
+	defaultProviderVersions := computeDefaultProviderPlugins(languagePlugins, allPlugins, projectPlugins)
 
 	return allPlugins, defaultProviderVersions, nil
 }

@@ -706,7 +706,7 @@ type ProjectPlugin struct {
 	Name    string          // the simple name of the plugin.
 	Kind    PluginKind      // the kind of the plugin (language, resource, etc).
 	Version *semver.Version // the plugin's semantic version, if present.
-	Path    string          // the path that a plugin is to be loaded from (this will always be a directory)
+	Path    *string         // the path that a plugin is to be loaded from (this will always be a directory)
 }
 
 // Spec Return a PluginSpec object for this project plugin.
@@ -1761,13 +1761,16 @@ func getPluginInfoAndPath(
 				continue
 			}
 		}
+		if plugin.Path == nil {
+			continue
+		}
 
 		spec := plugin.Spec()
 		info := &PluginInfo{
 			Name:    spec.Name,
 			Kind:    spec.Kind,
 			Version: spec.Version,
-			Path:    plugin.Path,
+			Path:    *plugin.Path,
 		}
 		path := getPluginPath(info)
 		// computing plugin sizes can be very expensive (nested node_modules)
