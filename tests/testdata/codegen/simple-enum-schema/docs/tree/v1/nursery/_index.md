@@ -15,7 +15,111 @@ no_edit_this_page: true
 
 
 
-## Create Nursery Resource {#create}
+## Creating a Nursery Resource
+<div>
+<pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
+</div>
+
+
+<div>
+    <pulumi-choosable type="language" values="csharp">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-csharp" data-lang="csharp">
+var nurseryResource = new Plant.Tree.V1.Nursery("nurseryResource", new()
+{
+    Varieties = new[]
+    {
+        Plant.Tree.V1.RubberTreeVariety.Burgundy,
+    },
+    Sizes = 
+    {
+        { "string", Plant.Tree.V1.TreeSize.Small },
+    },
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="go">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-go" data-lang="go">
+example, err := tree.NewNursery(ctx, "nurseryResource", &tree.NurseryArgs{
+Varieties: treev1.RubberTreeVarietyArray{
+tree.RubberTreeVarietyBurgundy,
+},
+Sizes: treev1.TreeSizeMap{
+"string": tree.TreeSizeSmall,
+},
+})
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="java">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-java" data-lang="java">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="python">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-python" data-lang="python">
+nursery_resource = plant.tree.v1.Nursery("nurseryResource",
+    varieties=[plant.tree/v1.RubberTreeVariety.BURGUNDY],
+    sizes={
+        "string": plant.tree/v1.TreeSize.SMALL,
+    })
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="typescript">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-typescript" data-lang="typescript">
+const nurseryResource = new plant.tree.v1.Nursery("nurseryResource", {
+    varieties: [plant.tree.v1.RubberTreeVariety.Burgundy],
+    sizes: {
+        string: plant.tree.v1.TreeSize.Small,
+    },
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="yaml">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-yaml" data-lang="yaml">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+## Definition of Nursery {#create}
 <div>
 <pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
 </div>
@@ -32,8 +136,8 @@ no_edit_this_page: true
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class=nd>@overload</span>
 <span class="k">def </span><span class="nx">Nursery</span><span class="p">(</span><span class="nx">resource_name</span><span class="p">:</span> <span class="nx">str</span><span class="p">,</span>
             <span class="nx">opts</span><span class="p">:</span> <span class="nx"><a href="/docs/reference/pkg/python/pulumi/#pulumi.ResourceOptions">Optional[ResourceOptions]</a></span> = None<span class="p">,</span>
-            <span class="nx">sizes</span><span class="p">:</span> <span class="nx">Optional[Mapping[str, TreeSize]]</span> = None<span class="p">,</span>
-            <span class="nx">varieties</span><span class="p">:</span> <span class="nx">Optional[Sequence[RubberTreeVariety]]</span> = None<span class="p">)</span>
+            <span class="nx">varieties</span><span class="p">:</span> <span class="nx">Optional[Sequence[RubberTreeVariety]]</span> = None<span class="p">,</span>
+            <span class="nx">sizes</span><span class="p">:</span> <span class="nx">Optional[Mapping[str, TreeSize]]</span> = None<span class="p">)</span>
 <span class=nd>@overload</span>
 <span class="k">def </span><span class="nx">Nursery</span><span class="p">(</span><span class="nx">resource_name</span><span class="p">:</span> <span class="nx">str</span><span class="p">,</span>
             <span class="nx">args</span><span class="p">:</span> <span class="nx"><a href="#inputs">NurseryArgs</a></span><span class="p">,</span>

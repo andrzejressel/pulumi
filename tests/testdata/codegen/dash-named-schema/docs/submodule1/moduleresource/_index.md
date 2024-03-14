@@ -15,7 +15,99 @@ no_edit_this_page: true
 
 
 
-## Create ModuleResource Resource {#create}
+## Creating a ModuleResource Resource
+<div>
+<pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
+</div>
+
+
+<div>
+    <pulumi-choosable type="language" values="csharp">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-csharp" data-lang="csharp">
+var moduleResourceResource = new FooBar.Submodule1.ModuleResource("moduleResourceResource", new()
+{
+    Thing = new FooBar.Inputs.TopLevelArgs
+    {
+        Buzz = "string",
+    },
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="go">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-go" data-lang="go">
+example, err := submodule1.NewModuleResource(ctx, "moduleResourceResource", &submodule1.ModuleResourceArgs{
+	Thing: &foo.TopLevelArgs{
+		Buzz: pulumi.String("string"),
+	},
+})
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="java">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-java" data-lang="java">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="python">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-python" data-lang="python">
+module_resource_resource = foo_bar.submodule1.ModuleResource("moduleResourceResource", thing=foo_bar.TopLevelArgs(
+    buzz="string",
+))
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="typescript">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-typescript" data-lang="typescript">
+const moduleResourceResource = new foo_bar.submodule1.ModuleResource("moduleResourceResource", {thing: {
+    buzz: "string",
+}});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="yaml">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-yaml" data-lang="yaml">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+## Definition of ModuleResource {#create}
 <div>
 <pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
 </div>

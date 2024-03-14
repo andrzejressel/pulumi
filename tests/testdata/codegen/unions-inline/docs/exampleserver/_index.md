@@ -15,7 +15,103 @@ no_edit_this_page: true
 
 
 
-## Create ExampleServer Resource {#create}
+## Creating a ExampleServer Resource
+<div>
+<pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
+</div>
+
+
+<div>
+    <pulumi-choosable type="language" values="csharp">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-csharp" data-lang="csharp">
+var exampleServerResource = new Example.ExampleServer("exampleServerResource", new()
+{
+    Properties = new Example.Inputs.ServerPropertiesForReplicaArgs
+    {
+        CreateMode = "Replica",
+        Version = "string",
+    },
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="go">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-go" data-lang="go">
+example, err := example.NewExampleServer(ctx, "exampleServerResource", &example.ExampleServerArgs{
+	Properties: example.ServerPropertiesForReplica{
+		CreateMode: "Replica",
+		Version:    "string",
+	},
+})
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="java">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-java" data-lang="java">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="python">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-python" data-lang="python">
+example_server_resource = example.ExampleServer("exampleServerResource", properties=example.ServerPropertiesForReplicaArgs(
+    create_mode="Replica",
+    version="string",
+))
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="typescript">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-typescript" data-lang="typescript">
+const exampleServerResource = new example.ExampleServer("exampleServerResource", {properties: {
+    createMode: "Replica",
+    version: "string",
+}});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="yaml">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-yaml" data-lang="yaml">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+## Definition of ExampleServer {#create}
 <div>
 <pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
 </div>

@@ -17,7 +17,105 @@ A non-overlay component resource.
 
 
 
-## Create ConfigGroup Resource {#create}
+## Creating a ConfigGroup Resource
+<div>
+<pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
+</div>
+
+
+<div>
+    <pulumi-choosable type="language" values="csharp">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-csharp" data-lang="csharp">
+var configGroupResource = new Kubernetes.Yaml.V2.ConfigGroup("configGroupResource", new()
+{
+    Files = "string",
+    Objs = null,
+    ResourcePrefix = "string",
+    Yaml = "string",
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="go">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-go" data-lang="go">
+example, err := yamlv2.NewConfigGroup(ctx, "configGroupResource", &yamlv2.ConfigGroupArgs{
+Files: pulumi.Any("string"),
+Objs: nil,
+ResourcePrefix: pulumi.String("string"),
+Yaml: pulumi.Any("string"),
+})
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="java">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-java" data-lang="java">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="python">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-python" data-lang="python">
+config_group_resource = kubernetes.yaml.v2.ConfigGroup("configGroupResource",
+    files="string",
+    objs=None,
+    resource_prefix="string",
+    yaml="string")
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="typescript">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-typescript" data-lang="typescript">
+const configGroupResource = new kubernetes.yaml.v2.ConfigGroup("configGroupResource", {
+    files: "string",
+    objs: undefined,
+    resourcePrefix: "string",
+    yaml: "string",
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="yaml">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-yaml" data-lang="yaml">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+## Definition of ConfigGroup {#create}
 <div>
 <pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
 </div>

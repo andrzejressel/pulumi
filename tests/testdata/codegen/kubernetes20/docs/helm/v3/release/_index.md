@@ -17,7 +17,115 @@ A non-overlay, non-component, non-Kubernetes resource.
 
 
 
-## Create Release Resource {#create}
+## Creating a Release Resource
+<div>
+<pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
+</div>
+
+
+<div>
+    <pulumi-choosable type="language" values="csharp">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-csharp" data-lang="csharp">
+var releaseResource = new Kubernetes.Helm.V3.Release("releaseResource", new()
+{
+    Chart = "string",
+    ValueYamlFiles = new[]
+    {
+        new StringAsset("content"),
+    },
+    Values = 
+    {
+        { "string", "any" },
+    },
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="go">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-go" data-lang="go">
+example, err := helmv3.NewRelease(ctx, "releaseResource", &helmv3.ReleaseArgs{
+Chart: pulumi.String("string"),
+ValueYamlFiles: pulumi.AssetOrArchiveArray{
+pulumi.NewStringAsset("content"),
+},
+Values: pulumi.Map{
+"string": pulumi.Any("any"),
+},
+})
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="java">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-java" data-lang="java">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="python">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-python" data-lang="python">
+release_resource = kubernetes.helm.v3.Release("releaseResource",
+    chart="string",
+    value_yaml_files=[pulumi.StringAsset("content")],
+    values={
+        "string": "any",
+    })
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="typescript">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-typescript" data-lang="typescript">
+const releaseResource = new kubernetes.helm.v3.Release("releaseResource", {
+    chart: "string",
+    valueYamlFiles: [new pulumi.asset.StringAsset("content")],
+    values: {
+        string: "any",
+    },
+});
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+<div>
+    <pulumi-choosable type="language" values="yaml">
+        <div class="highlight">
+            <pre class="chroma">
+                <code class="language-yaml" data-lang="yaml">
+Coming soon!
+                </code>
+            </pre>
+        </div>
+    </pulumi-choosable>
+</div>
+
+## Definition of Release {#create}
 <div>
 <pulumi-chooser type="language" options="typescript,python,go,csharp,java,yaml"></pulumi-chooser>
 </div>
