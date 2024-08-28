@@ -48,7 +48,7 @@ func transpiled(dir string) string {
 	return filepath.Join(transpiledExamplesDir, dir)
 }
 
-var allProgLanguages = codegen.NewStringSet(TestDotnet, TestPython, TestGo, TestNodeJS)
+var allProgLanguages = codegen.NewStringSet(TestDotnet, TestPython, TestGo, TestNodeJS, "pcl_json")
 
 type ProgramTest struct {
 	Directory          string
@@ -102,6 +102,7 @@ var PulumiPulumiProgramTests = []ProgramTest{
 	{
 		Directory:   "aws-eks",
 		Description: "AWS EKS",
+		Skip:        codegen.NewStringSet("pcl_json"),
 	},
 	{
 		Directory:   "aws-fargate",
@@ -178,6 +179,7 @@ var PulumiPulumiProgramTests = []ProgramTest{
 	{
 		Directory:   "azure-sa",
 		Description: "Azure SA",
+		Skip:        codegen.NewStringSet("pcl_json"),
 	},
 	{
 		Directory:   "string-enum-union-list",
@@ -256,6 +258,7 @@ var PulumiPulumiProgramTests = []ProgramTest{
 	{
 		Directory:   "logical-name",
 		Description: "Logical names",
+		Skip:        codegen.NewStringSet("pcl_json"),
 	},
 	{
 		Directory:   "aws-lambda",
@@ -291,7 +294,12 @@ var PulumiPulumiProgramTests = []ProgramTest{
 	{
 		Directory:   "components",
 		Description: "Components",
-		SkipCompile: codegen.NewStringSet(TestGo),
+		SkipCompile: codegen.NewStringSet("go"),
+	},
+	{
+		Directory:   "typeddict",
+		Description: "Use TypedDicts for inputs side by side with args class",
+		Skip:        allProgLanguages.Except("python"),
 	},
 	{
 		Directory:   "entries-function",
@@ -299,6 +307,7 @@ var PulumiPulumiProgramTests = []ProgramTest{
 		// go and dotnet do fully not support GenForExpression yet
 		// Todo: https://github.com/pulumi/pulumi/issues/12606
 		SkipCompile: allProgLanguages.Except(TestNodeJS).Except(TestPython),
+		Skip:        codegen.NewStringSet("pcl_json"),
 	},
 	{
 		Directory:   "retain-on-delete",
@@ -317,6 +326,7 @@ var PulumiPulumiProgramTests = []ProgramTest{
 		Description: "Basic program with a bunch of config variables",
 		// TODO[https://github.com/pulumi/pulumi/issues/14957] - object config variables are broken here
 		SkipCompile: codegen.NewStringSet(TestGo, TestDotnet),
+		Skip:        codegen.NewStringSet("pcl_json"),
 	},
 	{
 		Directory:   "regress-11176",
@@ -359,6 +369,7 @@ var PulumiPulumiProgramTests = []ProgramTest{
 		Description: "An example that shows we can compile splat expressions from array of objects",
 		// Skip compiling because we are using a test schema without a corresponding real package
 		SkipCompile: allProgLanguages,
+		Skip:        codegen.NewStringSet("pcl_json"),
 	},
 	{
 		Directory:   "invoke-inside-conditional-range",
@@ -464,7 +475,7 @@ var PulumiPulumiYAMLProgramTests = []ProgramTest{
 	{
 		Directory:   transpiled("azure-container-apps"),
 		Description: "Azure Container Apps",
-		Skip:        codegen.NewStringSet(TestGo, TestNodeJS, TestDotnet, TestPython),
+		Skip:        codegen.NewStringSet("go", "nodejs", "dotnet", "python"),
 	},
 	{
 		Directory:   transpiled("azure-static-website"),

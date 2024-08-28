@@ -169,12 +169,14 @@ type languageConstructorSyntax struct {
 }
 
 type constructorSyntaxData struct {
-	typescript *languageConstructorSyntax
-	python     *languageConstructorSyntax
-	golang     *languageConstructorSyntax
-	csharp     *languageConstructorSyntax
-	java       *languageConstructorSyntax
-	yaml       *languageConstructorSyntax
+	typescript  *languageConstructorSyntax
+	python      *languageConstructorSyntax
+	golang      *languageConstructorSyntax
+	csharp      *languageConstructorSyntax
+	java        *languageConstructorSyntax
+	yaml        *languageConstructorSyntax
+	pclProtobuf *languageConstructorSyntax
+	pclJSON     *languageConstructorSyntax
 }
 
 func emptyLanguageConstructorSyntax() *languageConstructorSyntax {
@@ -186,12 +188,14 @@ func emptyLanguageConstructorSyntax() *languageConstructorSyntax {
 
 func newConstructorSyntaxData() *constructorSyntaxData {
 	return &constructorSyntaxData{
-		typescript: emptyLanguageConstructorSyntax(),
-		python:     emptyLanguageConstructorSyntax(),
-		golang:     emptyLanguageConstructorSyntax(),
-		csharp:     emptyLanguageConstructorSyntax(),
-		java:       emptyLanguageConstructorSyntax(),
-		yaml:       emptyLanguageConstructorSyntax(),
+		typescript:  emptyLanguageConstructorSyntax(),
+		python:      emptyLanguageConstructorSyntax(),
+		golang:      emptyLanguageConstructorSyntax(),
+		csharp:      emptyLanguageConstructorSyntax(),
+		java:        emptyLanguageConstructorSyntax(),
+		yaml:        emptyLanguageConstructorSyntax(),
+		pclProtobuf: emptyLanguageConstructorSyntax(),
+		pclJSON:     emptyLanguageConstructorSyntax(),
 	}
 }
 
@@ -1815,6 +1819,12 @@ func (mod *modContext) genResource(r *schema.Resource) resourceDocArgs {
 		if example, found := dctx.constructorSyntaxData.yaml.resources[collapseYAMLToken(r.Token)]; found {
 			creationExampleSyntax["yaml"] = example
 		}
+		if example, found := dctx.constructorSyntaxData.pclProtobuf.resources[r.Token]; found {
+			creationExampleSyntax["pcl_protobuf"] = example
+		}
+		if example, found := dctx.constructorSyntaxData.pclJSON.resources[r.Token]; found {
+			creationExampleSyntax["pcl_json"] = example
+		}
 	}
 
 	// Set a cap on how many auxiliary types the docs will include. We do that to limit the maximum size of
@@ -2432,6 +2442,20 @@ func generateConstructorSyntaxData(pkg *schema.Package, languages []string) *con
 					"        ", /* indentation to trim */
 					"//",       /* comment prefix */
 					func(line string) bool { return strings.HasSuffix(line, ");") })
+			}
+		case "pcl_protobuf":
+			files, diags, err := safeExtract(pcl.GenerateSerializedProtobufProgram)
+			if !diags.HasErrors() && err == nil {
+				program := string(files["main.pcl.protobuf"])
+				protobufProgram, _ := extractConstructorSyntaxExamplesFromProtobufPcl(program)
+				constructorSyntax.pclProtobuf = protobufProgram
+			}
+		case "pcl_json":
+			files, diags, err := safeExtract(pcl.GenerateSerializedProtobufProgram)
+			if !diags.HasErrors() && err == nil {
+				program := string(files["main.pcl.protobuf"])
+				jsonProgram, _ := extractJSONConstructorSyntaxExamplesFromProtobufPcl(program)
+				constructorSyntax.pclJSON = jsonProgram
 			}
 		}
 	}
