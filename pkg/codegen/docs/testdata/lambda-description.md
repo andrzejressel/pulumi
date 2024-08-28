@@ -307,6 +307,12 @@ variables:
         sourceFile: lambda.js
         outputPath: lambda_function_payload.zip
 ```
+```pcl_protobuf
+BASE64
+```
+```pcl_json
+{}
+```
 <!--End PulumiCodeChooser -->
 
 ### Lambda Layers
@@ -662,6 +668,12 @@ variables:
                   - lambda.amazonaws.com
             actions:
               - sts:AssumeRole
+```
+```pcl_protobuf
+BASE64
+```
+```pcl_json
+{}
 ```
 <!--End PulumiCodeChooser -->
 
@@ -1026,6 +1038,12 @@ resources:
         gid: 1000
         uid: 1000
 ```
+```pcl_protobuf
+BASE64
+```
+```pcl_json
+{}
+```
 <!--End PulumiCodeChooser -->
 
 ### Lambda retries
@@ -1367,6 +1385,12 @@ variables:
               - logs:PutLogEvents
             resources:
               - arn:aws:logs:*:*:*
+```
+```pcl_protobuf
+BASE64
+```
+```pcl_json
+{}
 ```
 <!--End PulumiCodeChooser -->
 
