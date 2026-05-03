@@ -51,6 +51,41 @@ const (
 	apiRequestDetailLogLevel = 11 // log level for logging extra details about API requests and responses
 )
 
+// Pulumi service Accept header version history.
+//
+// The CLI advertises its API capabilities to the service by setting the
+// `Accept: application/vnd.pulumi+N` header on every request. Each increment
+// reflects a CLI capability the service can rely on, gating response shape or
+// behavior accordingly. Keep this table in sync with the matching version block
+// in pulumi-service `cmd/service/api/rest/request.go` — the integers are a
+// shared contract across both repos.
+//
+// To add a new capability: bump `currentAPIVersion` and append a row to the
+// table below.
+//
+// CLI Ver. API Ver. Description
+// -------- -------- -----------
+//
+//	pre-1.0     0    Initial API version.
+//	  v15.3     1    New /user/stacks response type.
+//	 v16.07     2    CLI sends "rich update events" during an update.
+//	v0.16.2     3    /user/stacks returns project name; /stacks routes accept project name.
+//	 v1.1.1     4    Policy as Code support.
+//	 v1.5.0     5    renew_lease takes the update token instead of the user access token.
+//	v1.13.1     6    PAC config support.
+//	 v3.3.2     7    CLI sets required headers when uploading policy packs via pre-signed URL.
+//	 v3.9.0     8    CLI handles paginated /user/stacks responses.
+//	 v3.233     9    SecretValue tolerance: CLI decodes the explicit
+//	                 {"isSecret": bool, "value": "..."} object form in addition
+//	                 to the legacy heterogeneous form (bare string when not
+//	                 secret, {"secret": "..."} when secret). Tolerant decoder
+//	                 added in https://github.com/pulumi/pulumi/pull/22699.
+const currentAPIVersion = 9
+
+// acceptAPIVersionHeader is the rendered `Accept` header value sent on every
+// request to the Pulumi service. See `currentAPIVersion`.
+var acceptAPIVersionHeader = fmt.Sprintf("application/vnd.pulumi+%d", currentAPIVersion)
+
 func UserAgent() string {
 	return fmt.Sprintf("pulumi-cli/1 (%s; %s)", version.Version, runtime.GOOS)
 }
@@ -105,6 +140,13 @@ type httpCallOptions struct {
 
 	// ErrorResponse is an optional response body for errors.
 	ErrorResponse any
+
+	// SkipDecodeErrors, when true, makes pulumiAPICall skip the 401/429/4xx/5xx
+	// typed-error classification.
+	// The caller is responsible for inspecting status, reading the body, and
+	// closing it. The body read/decode/close is still handled by passing
+	// **http.Response to Call's respObj — this only controls error decoding.
+	SkipDecodeErrors bool
 }
 
 // apiAccessToken is an implementation of accessToken for Pulumi API tokens (i.e. tokens of kind
@@ -306,8 +348,9 @@ func pulumiAPICall(ctx context.Context,
 		req.Header[k] = v
 	}
 
-	// Specify the specific API version we accept.
-	req.Header.Add("Accept", "application/vnd.pulumi+8")
+	// Advertise the API capabilities this CLI supports. See the version-history
+	// table above `currentAPIVersion`.
+	req.Header.Add("Accept", acceptAPIVersionHeader)
 
 	// Apply credentials if provided.
 	creds, err := tok.Get(ctx)
@@ -353,6 +396,10 @@ func pulumiAPICall(ctx context.Context,
 	logging.V(apiRequestLogLevel).Infof("Pulumi API call response code (%s): %v", url, resp.Status)
 
 	requestSpan.SetTag("responseCode", resp.Status)
+
+	if opts.SkipDecodeErrors {
+		return url, resp, nil
+	}
 
 	if warningHeader, ok := resp.Header["X-Pulumi-Warning"]; ok {
 		for _, warning := range warningHeader {
@@ -591,4 +638,26 @@ func bodyIntoReader(resp *http.Response) (io.ReadCloser, error) {
 	default:
 		return nil, fmt.Errorf("unrecognized encoding %s", contentEncoding[0])
 	}
+}
+
+// gzipReadCloser wraps a gzip.Reader so closing the wrapper closes both the
+// gzip stream and the underlying response body. Used by Call when the caller
+// passes a **http.Response — the body needs to outlive Call's stack frame, so
+// bodyIntoReader's defer-close pattern doesn't apply.
+type gzipReadCloser struct {
+	gzip *gzip.Reader
+	body io.ReadCloser
+}
+
+func (g *gzipReadCloser) Read(p []byte) (int, error) {
+	return g.gzip.Read(p)
+}
+
+func (g *gzipReadCloser) Close() error {
+	gzipErr := g.gzip.Close()
+	bodyErr := g.body.Close()
+	if gzipErr != nil {
+		return gzipErr
+	}
+	return bodyErr
 }
