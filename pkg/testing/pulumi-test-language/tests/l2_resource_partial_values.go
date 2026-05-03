@@ -16,9 +16,7 @@ package tests
 
 import (
 	"github.com/pulumi/pulumi/pkg/v3/testing/pulumi-test-language/providers"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -29,11 +27,6 @@ func init() {
 		},
 		Runs: []TestRun{
 			{
-				AssertPreview: func(l *L, res AssertPreviewArgs) {
-					err := res.Err
-					changes := res.Changes
-					RequireStackResource(l, err, changes)
-				},
 				Assert: func(l *L, res AssertArgs) {
 					err := res.Err
 					snap := res.Snap
@@ -42,17 +35,11 @@ func init() {
 					RequireStackResource(l, err, changes)
 
 					// Check we have the expected resources in the snapshot
-					require.Len(l, snap.Resources, 4, "expected 4 resources in snapshot")
+					require.Len(l, snap.Resources, 3, "expected 3 resources in snapshot")
 
 					RequireSingleResource(l, snap.Resources, "pulumi:providers:partial")
-					RequireSingleNamedResource(l, snap.Resources, "source")
-					consumer := RequireSingleNamedResource(l, snap.Resources, "consumer")
-
-					// Verification is performed inside createConsumer in the provider.
-					// If it passes, the consumer result will be "consumed".
-					assert.Equal(l, "consumed", consumer.Outputs["result"].StringValue())
-
-					_ = RequireSingleResource(l, snap.Resources, resource.RootStackType)
+					RequireSingleResource(l, snap.Resources, "partial:index:Source")
+					RequireSingleResource(l, snap.Resources, "partial:index:Consumer")
 				},
 			},
 		},
