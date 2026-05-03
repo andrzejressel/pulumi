@@ -17,6 +17,7 @@ package providers
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/blang/semver"
@@ -27,7 +28,6 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 )
 
-// A provider that returns resources with partial values during preview - mixing known/unknown and secret/non-secret values.
 type PartialValuesProvider struct {
 	plugin.UnimplementedProvider
 }
@@ -230,8 +230,10 @@ func (p *PartialValuesProvider) createSource(req plugin.CreateRequest) (plugin.C
 			"knownField":       resource.NewProperty("known-value"),
 			"knownSecretField": resource.MakeSecret(resource.NewProperty("known-secret-value")),
 			// unknownField and unknownSecretField are computed
-			"unknownField":       resource.NewProperty(resource.Computed{Element: resource.NewProperty("")}),
-			"unknownSecretField": resource.MakeSecret(resource.NewProperty(resource.Computed{Element: resource.NewProperty("")})),
+			"unknownField": resource.NewProperty(resource.Computed{Element: resource.NewProperty("")}),
+			"unknownSecretField": resource.MakeSecret(
+				resource.NewProperty(resource.Computed{Element: resource.NewProperty("")}),
+			),
 		})
 
 		// List with mixed values
@@ -290,7 +292,7 @@ func (p *PartialValuesProvider) createConsumer(req plugin.CreateRequest) (plugin
 	if !ok || !valuesProp.IsObject() {
 		return plugin.CreateResponse{
 			Status: resource.StatusUnknown,
-		}, fmt.Errorf("createConsumer: missing or non-object 'values' input")
+		}, errors.New("createConsumer: missing or non-object 'values' input")
 	}
 	values := valuesProp.ObjectValue()
 
