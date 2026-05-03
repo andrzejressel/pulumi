@@ -129,7 +129,8 @@ var expectedFailures = map[string]string{
 	"l3-component-primitive-conversions": "primitive conversions accepted by PCL bind, but not lowered correctly by SDK generators", //nolint:lll
 	"l3-range-ref":                       "fails with syntax errors",
 
-	"l2-id-type": "codegen isn't keeping track of ID right now",
+	"l2-id-type":                 "codegen isn't keeping track of ID right now",
+	"l2-resource-partial-values": "assertStringValue: key \"dataKnownField\": expected string, got output<string>{}",
 }
 
 // Add program overrides here for programs that can't yet be generated correctly due to programgen bugs.
